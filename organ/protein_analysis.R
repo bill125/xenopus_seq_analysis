@@ -38,10 +38,10 @@ gene_analysis <- function(x, y) {
   #Condition correlation matrix on a by-gene basis for pathway enrichment - this example will focus on the protein, Notum
   #remove gene of interest (Notum) from the correlation matrix
   #the rownames of the file correspond to gene symbols for pathway enrichment, whereas the second column contains the bicor coefficent
-  return()
+
   bicor.data = melt(tmp$bicor)
   colnames(bicor.data) = c('Gene_symbol_1', 'Gene_symbol_2', 'bicor')
-  Notum = filter(bicor.data, Gene_symbol_1 == 'ctrl') %>%
+  Notum = filter(bicor.data, Gene_symbol_1 == 'chga') %>%
     select(-Gene_symbol_1) %>%
     rename(Gene_symbol = Gene_symbol_2)
   
@@ -62,10 +62,11 @@ gene_analysis <- function(x, y) {
 }
 
 organs = c("bra", "hea", "int", "liv", "lun", "mus", "ski")
-ret = gene_analysis("bra", "hea")
+ret = gene_analysis("int", "liv")
 for (x in organs) {
   for (y in organs) {
-    if (x < y) {
+    if (x != y) {
+      break
       print(paste(x, y))
       gene_analysis(x, y)
     }   
